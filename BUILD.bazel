@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+# gazelle:prefix github.com/jonas747/dca
+gazelle(name = "gazelle")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "dca.go",
+        "decode.go",
+        "encode.go",
+        "stream.go",
+        "structs.go",
+    ],
+    importpath = "github.com/jonas747/dca",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_bwmarrin_discordgo//:go_default_library",
+        "@com_github_jonas747_ogg//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "decode_test.go",
+        "encode_test.go",
+    ],
+    embed = [":go_default_library"],
+)
